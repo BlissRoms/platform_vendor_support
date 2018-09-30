@@ -22,7 +22,9 @@ import androidx.preference.SwitchPreference;
 import android.os.UserHandle;
 import android.util.AttributeSet;
 
-public class SecureSettingSwitchPreference extends SwitchPreference {
+import lineageos.preference.SelfRemovingSwitchPreference;
+
+public class SecureSettingSwitchPreference extends SelfRemovingSwitchPreference {
 
     public SecureSettingSwitchPreference(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
@@ -33,24 +35,22 @@ public class SecureSettingSwitchPreference extends SwitchPreference {
     }
 
     public SecureSettingSwitchPreference(Context context) {
-        super(context, null);
-    }
-
-    @Override
-    protected boolean persistBoolean(boolean value) {
-        Settings.Secure.putIntForUser(getContext().getContentResolver(),
-            getKey(), value ? 1 : 0, UserHandle.USER_CURRENT);
-        return true;
-    }
-
-    @Override
-    protected boolean getPersistedBoolean(boolean defaultReturnValue) {
-        return Settings.Secure.getIntForUser(getContext().getContentResolver(),
-                getKey(), defaultReturnValue ? 1 : 0, UserHandle.USER_CURRENT) != 0;
+        super(context);
     }
 
     @Override
     protected boolean isPersisted() {
         return Settings.Secure.getString(getContext().getContentResolver(), getKey()) != null;
+    }
+
+    @Override
+    protected void putBoolean(String key, boolean value) {
+        Settings.Secure.putIntForUser(getContext().getContentResolver(), key, value ? 1 : 0, UserHandle.USER_CURRENT);
+    }
+
+    @Override
+    protected boolean getBoolean(String key, boolean defaultValue) {
+        return Settings.Secure.getIntForUser(getContext().getContentResolver(),
+                key, defaultValue ? 1 : 0, UserHandle.USER_CURRENT) != 0;
     }
 }

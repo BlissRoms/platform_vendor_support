@@ -22,38 +22,35 @@ import androidx.preference.SwitchPreference;
 import android.os.UserHandle;
 import android.util.AttributeSet;
 
-public class SystemSettingSwitchPreference extends SwitchPreference {
+import lineageos.preference.SelfRemovingSwitchPreference;
+
+public class SystemSettingSwitchPreference extends SelfRemovingSwitchPreference {
 
     public SystemSettingSwitchPreference(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        setPreferenceDataStore(new SystemSettingsStore(context.getContentResolver()));
     }
 
     public SystemSettingSwitchPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
-        setPreferenceDataStore(new SystemSettingsStore(context.getContentResolver()));
     }
 
     public SystemSettingSwitchPreference(Context context) {
-        super(context, null);
-        setPreferenceDataStore(new SystemSettingsStore(context.getContentResolver()));
-    }
-
-    @Override
-    protected boolean persistBoolean(boolean value) {
-        Settings.System.putIntForUser(getContext().getContentResolver(),
-            getKey(), value ? 1 : 0, UserHandle.USER_CURRENT);
-        return true;
-    }
-
-    @Override
-    protected boolean getPersistedBoolean(boolean defaultReturnValue) {
-        return Settings.System.getIntForUser(getContext().getContentResolver(),
-                getKey(), defaultReturnValue ? 1 : 0, UserHandle.USER_CURRENT) != 0;
+        super(context);
     }
 
     @Override
     protected boolean isPersisted() {
         return Settings.System.getString(getContext().getContentResolver(), getKey()) != null;
+    }
+
+    @Override
+    protected void putBoolean(String key, boolean value) {
+        Settings.System.putIntForUser(getContext().getContentResolver(), key, value ? 1 : 0, UserHandle.USER_CURRENT);
+    }
+
+    @Override
+    protected boolean getBoolean(String key, boolean defaultValue) {
+        return Settings.System.getIntForUser(getContext().getContentResolver(),
+                key, defaultValue ? 1 : 0, UserHandle.USER_CURRENT) != 0;
     }
 }
