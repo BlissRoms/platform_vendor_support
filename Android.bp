@@ -9,6 +9,7 @@ android_library {
         "androidx.preference_preference",
         "androidx.appcompat_appcompat",
         "androidx.lifecycle_lifecycle-runtime",
+        "org.lineageos.platform.internal",
     ],
 
     resource_dirs: ["res"],
