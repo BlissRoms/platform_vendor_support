@@ -31,8 +31,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.support.v7.preference.*;
-
+import androidx.preference.*;
 import com.bliss.support.R;
 
 public class CustomSeekBarPreference extends Preference implements SeekBar.OnSeekBarChangeListener {
