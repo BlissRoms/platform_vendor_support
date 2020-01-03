@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c8afb44f_e00673aa",
+        "filename": "src/com/bliss/support/preferences/SeekBarPreferenceCham.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000005
+      },
+      "writtenOn": "2020-01-03T00:27:50Z",
+      "side": 1,
+      "message": "should be\n\nimport com.bliss.support.R;",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 30
+      },
+      "revId": "e1e873509a2eb1747743ef6fef64289e317ae955",
+      "serverId": "b7386340-edb3-408c-9cac-98e148952b30",
+      "unresolved": true
+    }
+  ]
+}
