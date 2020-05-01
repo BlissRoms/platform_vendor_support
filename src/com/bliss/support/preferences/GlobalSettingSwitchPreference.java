@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2019 crDroid Android Project
+ * Copyright (C) 2016-2017 crDroid Android
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,13 +17,10 @@ package com.bliss.support.preferences;
 
 import android.content.Context;
 import android.provider.Settings;
-import android.os.UserHandle;
+import androidx.preference.SwitchPreference;
 import android.util.AttributeSet;
 
-import lineageos.preference.SelfRemovingSwitchPreference;
-
-public class GlobalSettingSwitchPreference extends SelfRemovingSwitchPreference {
-
+public class GlobalSettingSwitchPreference extends SwitchPreference {
     public GlobalSettingSwitchPreference(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
@@ -33,22 +30,34 @@ public class GlobalSettingSwitchPreference extends SelfRemovingSwitchPreference 
     }
 
     public GlobalSettingSwitchPreference(Context context) {
-        super(context);
+        super(context, null);
     }
 
     @Override
-    protected boolean isPersisted() {
-        return Settings.Global.getString(getContext().getContentResolver(), getKey()) != null;
+    protected boolean persistBoolean(boolean value) {
+        if (shouldPersist()) {
+            if (value == getPersistedBoolean(!value)) {
+                // It's already there, so the same as persisting
+                return true;
+            }
+            Settings.Global.putInt(getContext().getContentResolver(), getKey(), value ? 1 : 0);
+            return true;
+        }
+        return false;
     }
 
     @Override
-    protected void putBoolean(String key, boolean value) {
-        Settings.Global.putInt(getContext().getContentResolver(), key, value ? 1 : 0);
-    }
-
-    @Override
-    protected boolean getBoolean(String key, boolean defaultValue) {
+    protected boolean getPersistedBoolean(boolean defaultReturnValue) {
+        if (!shouldPersist()) {
+            return defaultReturnValue;
+        }
         return Settings.Global.getInt(getContext().getContentResolver(),
-                key, defaultValue ? 1 : 0) != 0;
+                getKey(), defaultReturnValue ? 1 : 0) != 0;
+    }
+
+    @Override
+    protected void onSetInitialValue(boolean restoreValue, Object defaultValue) {
+        setChecked(Settings.Global.getString(getContext().getContentResolver(), getKey()) != null ? getPersistedBoolean(isChecked())
+                : (Boolean) defaultValue);
     }
 }
