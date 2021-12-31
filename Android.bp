@@ -13,8 +13,10 @@ android_library {
         "androidx.preference_preference",
         "androidx.appcompat_appcompat",
         "androidx.recyclerview_recyclerview",
+	"SettingsLibMainSwitchPreference",
     ],
 
     resource_dirs: ["res"],
 
 }
+
