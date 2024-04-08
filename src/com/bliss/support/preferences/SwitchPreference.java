@@ -26,7 +26,7 @@ import android.view.View;
 import androidx.core.content.res.TypedArrayUtils;
 import androidx.preference.R;
 
-public class SwitchPreference extends androidx.preference.SwitchPreference {
+public class SwitchPreference extends androidx.preference.SwitchPreferenceCompat {
 
     private final Context mContext;
     private final Vibrator mVibrator;

@@ -20,7 +20,9 @@ package com.bliss.support.preferences;
 import android.content.Context;
 import android.util.AttributeSet;
 
-public class GlobalSettingSwitchPreference extends SwitchPreference {
+import androidx.preference.SwitchPreferenceCompat;
+
+public class GlobalSettingSwitchPreference extends SwitchPreferenceCompat {
 
     public GlobalSettingSwitchPreference(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
